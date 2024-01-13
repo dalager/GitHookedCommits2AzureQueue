@@ -1,7 +1,9 @@
 #!/bin/sh
 
 # Replace with your API endpoint
-API_ENDPOINT="https://commitloggerstorage2895.queue.core.windows.net/commitqueue/messages?sv=2021-02-12&si=addcommits&sig=0yr2NGOlRkLqF3E2zCZFVK8zgL95Lp2uskwoKPtoXtI%3D"
+API_ENDPOINT = $COMMITLOGGER_QUEUE_URL
+
+echo "Sending commit details to $API_ENDPOINT"
 
 # Get various commit details
 REPO=$(git config --get remote.origin.url)
