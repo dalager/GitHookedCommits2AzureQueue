@@ -1,6 +1,20 @@
 # Git commits to Azure Queue
 
-This is a simple tool that tracks commits across all your git repositoris and logs them to an azure storage queue.
+This is a simple tool that tracks commits across all your git repositoris and logs them to an azure storage queue as json.
+
+From here you can hook it up to functions, logicapps, local apps or something else to store or process elsewhere.
+
+```json
+{
+  "commit_hash": "093b25400dd5cf56c95bf0000022fe7063a073c8",
+  "repository": "git@github.com:dalager/commitlogger.git",
+  "branch": "main",
+  "author": "Christian Dalager",
+  "commit_message": "Updating readme"
+}
+```
+
+![Alt text](img/storageexplorer.png)
 
 ## Install hook
 
