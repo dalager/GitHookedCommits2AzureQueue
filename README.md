@@ -32,7 +32,16 @@ Take a look at the [post-commit](hooks/post-commit) hook to see what it does.
 
 ## Setup Azure infrastructure
 
-This is where the commits will be logged to
+Using only the Azure CLI and Powershell, this will create the following resources
+
+- Resource group `commitlogger-rg`
+- Storage account, Standard LRS, `commitloggerstorage<+RandomInt>`
+- Storage queue `commitqueue`
+- Access policy "addcommits" with only add permissions to the queue
+- An Secure Access Signature (SAS) token that can be used to post to the queue
+
+This is a VERY simple and almost free setup. The storage account is the only thing that will cost you money, and it will cost you almost nothing.
+Unless you are an insane commit machine, of course. Which you are not. Right?
 
 ### Pre-requisites
 
