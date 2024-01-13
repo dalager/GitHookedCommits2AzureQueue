@@ -28,6 +28,8 @@ write-output "This url can be used for posting messages to the queue for the nex
 
 Write-Output "saving to environment variable $envvariable"
 # add as environment variable
-[Environment]::SetEnvironmentVariable("$envvariable", $queueposturl, "User")
+[Environment]::SetEnvironmentVariable("$envvariable", $queueposturl, "System")
 
+# ensure that the environment variable is available in the current session
+$env:COMMITLOGGER_QUEUE_URL = $queueposturl
 

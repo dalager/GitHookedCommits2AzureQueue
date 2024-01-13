@@ -3,8 +3,6 @@
 # Replace with your API endpoint
 API_ENDPOINT=$COMMITLOGGER_QUEUE_URL
 
-echo "Sending commit details to $API_ENDPOINT"
-
 # Get various commit details
 REPO=$(git config --get remote.origin.url)
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
@@ -14,11 +12,8 @@ COMMIT_HASH=$(git rev-parse HEAD)
 
 JSON_STRING='<QueueMessage><MessageText>{"commit_hash": "'$COMMIT_HASH'", "repository": "'$REPO'", "branch": "'$BRANCH'", "author": "'$AUTHOR'", "commit_message": "'$COMMIT_MESSAGE'"}</MessageText></QueueMessage>'
 
-
 # Send a POST request to the API endpoint
-
 curl -X POST -H "Content-Type: text/xml" -d "$JSON_STRING" $API_ENDPOINT --silent > /dev/null
-
 
 # Call the local post-commit hook, if it exists
 LOCAL_HOOK=$(git rev-parse --git-dir)/hooks/post-commit
