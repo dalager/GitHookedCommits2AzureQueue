@@ -4,7 +4,21 @@ This is a simple tool that tracks commits across all your git repositoris and lo
 
 ## Install hook
 
+Sets up a global git hook that will be called after each commit and will post the commit to the azure queue.
+
+Any local `post-commit` hook will be called after the global hook.
+
+Run this
+
+```powershell
+.\hooks\install_global_hook.ps1
+```
+
+Take a look at the [post-commit](hooks/post-commit) hook to see what it does.
+
 ## Setup Azure infrastructure
+
+This is where the commits will be logged to
 
 ### Pre-requisites
 
