@@ -1,0 +1,8 @@
+
+
+POST https://commitloggerstorage2895.queue.core.windows.net/commitqueue/messages?sv=2021-02-12&si=addcommits&sig=0yr2NGOlRkLqF3E2zCZFVK8zgL95Lp2uskwoKPtoXtI%3D HTTP/1.1
+Content-Type: text/xml
+
+<QueueMessage><MessageText>
+{"commit_hash": "aaafe8da06ab8ec6cc79b34e6aacc28f595a22af", "repository": "fake repository", "branch": "main", "author": "Christian Dalager", "commit_message": "test hook"}
+</MessageText></QueueMessage> 
