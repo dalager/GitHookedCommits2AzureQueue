@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Replace with your API endpoint
-API_ENDPOINT = $COMMITLOGGER_QUEUE_URL
+API_ENDPOINT=$COMMITLOGGER_QUEUE_URL
 
 echo "Sending commit details to $API_ENDPOINT"
 
