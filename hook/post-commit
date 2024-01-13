@@ -1,0 +1,29 @@
+#!/bin/sh
+
+
+
+# Replace with your API endpoint
+API_ENDPOINT="http://your-api-endpoint.com"
+
+# Get various commit details
+REPO=$(git config --get remote.origin.url)
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+AUTHOR=$(git log -1 --pretty=format:'%an')
+COMMIT_MESSAGE=$(git log -1 --pretty=%B)
+COMMIT_HASH=$(git rev-parse HEAD)
+
+# # Create a JSON object
+# JSON_STRING=$( jq -n \
+#                   --arg ch "$COMMIT_HASH" \
+#                   --arg rp "$REPO" \
+#                   --arg br "$BRANCH" \
+#                   --arg au "$AUTHOR" \
+#                   --arg cm "$COMMIT_MESSAGE" \
+#                   '{commit_hash: $ch, repository: $rp, branch: $br, author: $au, commit_message: $cm}' )
+
+JSON_STRING='{"commit_hash": "'$COMMIT_HASH'", "repository": "'$REPO'", "branch": "'$BRANCH'", "author": "'$AUTHOR'", "commit_message": "'$COMMIT_MESSAGE'"}'
+
+
+# Send a POST request to the API endpoint
+#curl -X POST -H "Content-Type: application/json" -d "$JSON_STRING" $API_ENDPOINT
+echo $JSON_STRING
