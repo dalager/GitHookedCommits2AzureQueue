@@ -22,4 +22,4 @@ else {
     exit
 }
 
-git config core.hooksPath $installpath
+git config --global core.hooksPath $installpath
