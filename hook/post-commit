@@ -18,4 +18,9 @@ JSON_STRING='<QueueMessage><MessageText>{"commit_hash": "'$COMMIT_HASH'", "repos
 curl -X POST -H "Content-Type: text/xml" -d "$JSON_STRING" $API_ENDPOINT --silent > /dev/null
 
 
+# Call the local post-commit hook, if it exists
+LOCAL_HOOK=$(git rev-parse --git-dir)/hooks/post-commit
+if [ -x "$LOCAL_HOOK" ]; then
+    $LOCAL_HOOK
+fi
 
