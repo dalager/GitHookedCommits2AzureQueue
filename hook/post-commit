@@ -15,6 +15,7 @@ JSON_STRING='<QueueMessage><MessageText>{"commit_hash": "'$COMMIT_HASH'", "repos
 
 # Send a POST request to the API endpoint
 
-curl -X POST -H "Content-Type: text/xml" -d "$JSON_STRING" $API_ENDPOINT --silent
+curl -X POST -H "Content-Type: text/xml" -d "$JSON_STRING" $API_ENDPOINT --silent > /dev/null
+
 
 
