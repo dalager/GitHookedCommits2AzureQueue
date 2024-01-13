@@ -11,7 +11,7 @@ Any local `post-commit` hook will be called after the global hook.
 Run this
 
 ```powershell
-.\hooks\install_global_hook.ps1
+>.\hooks\install_global_hook.ps1
 ```
 
 Take a look at the [post-commit](hooks/post-commit) hook to see what it does.
@@ -29,24 +29,40 @@ This is where the commits will be logged to
 ### Run the following commands
 
 ```powershell
-az login
-az account set --subscription <subscription id>
+>az login
+>az account set --subscription <subscription id>
 ```
 
 And then run the following command to create the infrastructure
 
 ```powershell
-.\iac\create_resources.ps1
+>.\iac\create_resources.ps1
 ```
 
-### Post install state
+## Post install state
 
-- the resource group `commitlogger-rg` contains the storage account and the queue with the logs
-- the environment variable `COMMITLOGGER_QUEUE_URL` contains the authorized post url to the queue
-- there is a global `post-commit` hook installed in `~/.git-hooks` that will post to the queue after each commit
-- if you have a local `post-commit` hook in your repository, it will be called after the global hook
+- The resource group `commitlogger-rg` contains the storage account and the queue with the logs
+- The environment variable `COMMITLOGGER_QUEUE_URL` contains the authorized post url to the queue
+- There is a global `post-commit` hook installed in `~/.git-hooks` that will post to the queue after each commit
+- If you have a local `post-commit` hook in your repository, it will be called after the global hook
+
+## Test the endpoint
+
+With VS code and the restclient extension you can test the endpoint by opening the [push_test_message_to_endpoint.http](push_test_message_to_endpoint.http) file and sending the request.
+
+Then open the storage queue in either the [Azure portal](https://portal.azure.com/) or with the [Azure Storage Explorer](https://azure.microsoft.com/en-us/features/storage-explorer/).
 
 ### Cleanup
 
-- run `.\iac\drop_resources.ps1` to delete the resource group and all resources in it and the environment variable `COMMITLOGGER_QUEUE_URL`
-- run `.\hooks\uninstall_global_hook.ps1` to uninstall the global git hook
+Run the following commands to clean up the resources
+
+`>.\iac\drop_resources.ps1`
+Will delete the resource group and all resources in it and the environment variable `COMMITLOGGER_QUEUE_URL`
+
+`>.\hooks\uninstall_global_hook.ps1`
+
+Will uninstall the global git hook
+
+## Known issues
+
+On windows with `gitui` the global hook is not called.
