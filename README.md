@@ -1,8 +1,19 @@
-# Git commits to Azure Queue
+# Git commits to Azure Storage Queue
 
-This is a simple tool that tracks commits across all your git repositoris and logs them to an azure storage queue as json.
+This is a simple tool that tracks commits across all your git repositories and logs them to an [Azure Storage Queue](https://learn.microsoft.com/en-us/azure/storage/queues/storage-queues-introduction) as json.
 
 From here you can hook it up to functions, logicapps, local apps or something else to store or process elsewhere.
+
+## How it works
+
+It works by installing a global git hook that will be called after each commit and will HTTP post some commit details to the Azure Storage Queue using a [Secure Access Signature (SAS)](https://docs.microsoft.com/en-us/azure/storage/common/storage-sas-overview).
+The credentials are long lived - 5 years as default - and stored in an environment variable.
+
+![Alt text](images/how_it_works.png)
+
+## Storage format
+
+The format of the json is quite simple.
 
 ```json
 {
@@ -14,23 +25,20 @@ From here you can hook it up to functions, logicapps, local apps or something el
 }
 ```
 
-![Alt text](img/storageexplorer.png)
+And it ends up in the queue like this
 
-## Install hook
+![Alt text](images/storageexplorer.png)
 
-Sets up a global git hook that will be called after each commit and will post the commit to the azure queue.
+# Installation
 
-Any local `post-commit` hook will be called after the global hook.
+There is two steps to the installation.
 
-Run this
+1. Setup Azure infrastructure
+2. Install git hook
 
-```powershell
->.\hooks\install_global_hook.ps1
-```
+![Alt text](images/how_it_installs.png)
 
-Take a look at the [post-commit](hooks/post-commit) hook to see what it does.
-
-## Setup Azure infrastructure
+## 1. Setup Azure infrastructure
 
 Using only the Azure CLI and Powershell, this will create the following resources
 
@@ -51,16 +59,32 @@ Unless you are an insane commit machine, of course. Which you are not. Right?
 
 ### Run the following commands
 
+If you have not already setup your Azure CLI, run the following commands to login and set the subscription
+
 ```powershell
 >az login
 >az account set --subscription <subscription id>
 ```
 
-And then run the following command to create the infrastructure
+And then run the following command to create the azure resources and the environment variable
 
 ```powershell
 >.\iac\create_resources.ps1
 ```
+
+## 2. Install hook
+
+Sets up a global git hook that will be called after each commit and will post the commit to the azure queue.
+
+Any local `post-commit` hook will be called after the global hook.
+
+### Run the following command
+
+```powershell
+>.\hooks\install_global_hook.ps1
+```
+
+Take a look at the [post-commit](hooks/post-commit) hook to see what it does.
 
 ## Post install state
 

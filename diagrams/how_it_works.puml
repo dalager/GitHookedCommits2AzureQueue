@@ -1,0 +1,38 @@
+@startuml how_it_works
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+
+HIDE_STEREOTYPE()
+
+
+
+AddContainerTag("rg", "Resource Group",$bgColor="#eeeeee", $fontColor="#000000",$borderColor="#666666")
+AddRelTag("white", $lineColor="#ffffff",$textColor="#ffffff")
+Person(user, "You")
+
+
+Component(envvar, "Saved URL w. AccessToken","Environment variable", "Url to Azure Storage Queue with SAS access token")
+    Component(repo, "Git repository", "Your git repository")
+    Component(githook,"post-commit hook", "bash","Global registered Git hook that posts to the azure queue")
+
+
+System_Boundary(az, "Azure Subscription", "Azure cloud",){
+    Container(resourcegroup, "Resource group", "Azure Resource Group", $tags="rg") {
+        Container(storageaccount, "AzureStorage", "Storage account") {
+            Component(policy, "AccessPolicy", "'addcommits'","Validates the SAS token with add-permissions")
+            Component(commitqueue, "CommitQueue", "Azure Storage Queue")
+        }
+    }
+}
+
+
+Rel_R(user, repo, "1. Commit change to repo")
+Rel_D(repo,githook, "2. process post-commit")
+Rel_D(githook, envvar, "3. Uses")
+Rel_R(githook, policy, "4. Add commit data", "HTTP/RESTXML\n w SAS token")
+Rel(policy, commitqueue, "", $tags="white")
+
+@enduml

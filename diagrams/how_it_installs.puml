@@ -1,0 +1,43 @@
+@startuml how_it_installs
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+
+HIDE_STEREOTYPE()
+
+
+
+AddContainerTag("rg", "Resource Group",$bgColor="#eeeeee", $fontColor="#000000",$borderColor="#666666")
+AddRelTag("white", $lineColor="#ffffff",$textColor="#ffffff")
+Person(user, "You")
+
+Component(installer, "Installers", "Powershell","Creates the azure infrastructure and installs the global git hook")
+
+System_Boundary(az, "Azure", "Azure cloud",){
+    Container(resourcegroup, "Resource group", "Azure Resource Group", $tags="rg") {
+        Container(storageaccount, "AzureStorage", "Storage account") {
+            Component(policy, "AccessPolicy", "'addcommits'","- Validates the SAS token with add-permissions\n-Used for creating the SAS token")
+            ComponentQueue(commitqueue, "CommitQueue", "Azure Storage Queue")
+        }
+    }
+}
+
+Component(envvar, "Saved URL w. AccessToken","Environment variable", "Url to Azure Storage Queue with SAS access token viable for 5 years")
+Component(githook,"post-commit hook", "bash","Global registered Git hook that posts to the azure queue")
+
+
+
+Rel_R(user, installer, "1. Run")
+Rel_R(installer,az, "2. Create Azure environment", "az cli")
+Rel_R(installer,policy, "3. Get Access Token", "az cli")
+Rel(installer, envvar, "4. Set env ","(Url+SAS Token)")
+Rel_D(installer, githook, "5. Install githook", "powershell")
+
+
+Rel(policy,commitqueue,"")
+
+
+
+@enduml
