@@ -118,7 +118,3 @@ Will uninstall the global git hook
 
 On windows with `gitui` (https://github.com/extrawurst/gitui) the global hook is not called due to som issue with rust and hook path resolution/environment. I think.
 This means that as of now gitui cannot be used. Issue #2.
-
-### JSON Validation
-
-The json is not validated before posting to the queue. So the commit message might contain unwelcome characters that might break xml or json. Should be fixed. Issue #1

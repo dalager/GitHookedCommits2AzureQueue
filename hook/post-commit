@@ -10,6 +10,14 @@ AUTHOR=$(git log -1 --pretty=format:'%an')
 COMMIT_MESSAGE=$(git log -1 --pretty=%B)
 COMMIT_HASH=$(git rev-parse HEAD)
 
+
+# the commit message should be escaped to avoid issues with special characters in XML
+COMMIT_MESSAGE=$(echo $COMMIT_MESSAGE | sed 's/"/\&quot;/g' | sed "s/'/\&apos;/g" | sed 's/&/\&amp;/g' | sed 's/</\&lt;/g' | sed 's/>/\&gt;/g')
+
+# the commit message should also be escaped to avoid issues with special characters in json
+COMMIT_MESSAGE=$(echo $COMMIT_MESSAGE | sed 's/"/\\"/g' | sed "s/'/\\'/g" | sed 's/&/\\\&/g' | sed 's/</\\\</g' | sed 's/>/\\\>/g')
+
+
 JSON_STRING='<QueueMessage><MessageText>{"commit_hash": "'$COMMIT_HASH'", "repository": "'$REPO'", "branch": "'$BRANCH'", "author": "'$AUTHOR'", "commit_message": "'$COMMIT_MESSAGE'"}</MessageText></QueueMessage>'
 
 # Send a POST request to the API endpoint
