@@ -4,6 +4,8 @@ This is a simple tool that tracks commits across all your git repositories and l
 
 From here you can hook it up to functions, logicapps, local apps or something else to store or process elsewhere.
 
+It was made to help me track what I am working on.
+
 ## How it works
 
 It works by installing a global git hook that will be called after each commit and will HTTP post some commit details to the Azure Storage Queue using a [Secure Access Signature (SAS)](https://docs.microsoft.com/en-us/azure/storage/common/storage-sas-overview).
@@ -112,4 +114,11 @@ Will uninstall the global git hook
 
 ## Known issues
 
-On windows with `gitui` the global hook is not called.
+### GitUI
+
+On windows with `gitui` (https://github.com/extrawurst/gitui) the global hook is not called due to som issue with rust and hook path resolution/environment. I think.
+This means that as of now gitui cannot be used. Issue #2.
+
+### JSON Validation
+
+The json is not validated before posting to the queue. So the commit message might contain unwelcome characters that might break xml or json. Should be fixed. Issue #1

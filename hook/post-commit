@@ -20,4 +20,3 @@ LOCAL_HOOK=$(git rev-parse --git-dir)/hooks/post-commit
 if [ -x "$LOCAL_HOOK" ]; then
     $LOCAL_HOOK
 fi
-

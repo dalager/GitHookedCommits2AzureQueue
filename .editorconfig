@@ -1,0 +1,2 @@
+[hook/post-commit]
+end_of_line = lf
