@@ -117,4 +117,4 @@ Will uninstall the global git hook
 ### GitUI
 
 On windows with `gitui` (https://github.com/extrawurst/gitui) the global hook is not called due to som issue with rust and hook path resolution/environment. I think.
-This means that as of now gitui cannot be used. Issue #2.
+This means that as of now gitui cannot be used. [Issue #2](https://github.com/dalager/GitHookedCommits2AzureQueue/issues/2)
