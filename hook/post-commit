@@ -24,7 +24,7 @@ PAYLOAD='<QueueMessage><MessageText>'$B64ENC'</MessageText></QueueMessage>'
 CONTENT_LENGTH=$(echo -n $PAYLOAD | wc -c)
 
 # Send a POST request to the API endpoint
-curl -X POST -H "Content-Type: text/xml" -H "Content-Length: $CONTENT_LENGTH" -d "$PAYLOAD" $API_ENDPOINT --silent > /dev/null
+curl -X POST -H "Content-Type: application/xml" -H "Content-Length: $CONTENT_LENGTH" -d "$PAYLOAD" $API_ENDPOINT --silent > /dev/null
 
 # Call the local post-commit hook, if it exists
 LOCAL_HOOK=$(git rev-parse --git-dir)/hooks/post-commit
