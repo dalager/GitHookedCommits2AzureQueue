@@ -11,8 +11,8 @@ COMMIT_MESSAGE=$(git log -1 --pretty=%B)
 COMMIT_HASH=$(git rev-parse HEAD)
 
 
-# the commit message should also be escaped to avoid issues with special characters in json
-COMMIT_MESSAGE=$(echo $COMMIT_MESSAGE | sed 's/"/\\"/g' | sed "s/'/\\'/g" | sed 's/&/\\\&/g' | sed 's/</\\\</g' | sed 's/>/\\\>/g')
+# escape double quotes in commit message
+COMMIT_MESSAGE=$(echo $COMMIT_MESSAGE | sed 's/"/\\"/g')
 
 JSON_STRING='{"commit_hash": "'$COMMIT_HASH'", "repository": "'$REPO'", "branch": "'$BRANCH'", "author": "'$AUTHOR'", "commit_message": "'$COMMIT_MESSAGE'"}'
 
