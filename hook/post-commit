@@ -10,6 +10,16 @@ AUTHOR=$(git log -1 --pretty=format:'%an')
 COMMIT_MESSAGE=$(git log -1 --pretty=%B)
 COMMIT_HASH=$(git rev-parse HEAD)
 
+# if branch is HEAD then exit
+if [ "$BRANCH" = "HEAD" ]; then
+    exit 0
+fi
+
+# if we are in a rebase state then exit
+if [ -d .git/rebase-apply ] || [ -d .git/rebase-merge ]; then
+    exit 0
+fi
+
 
 # escape double quotes in commit message
 COMMIT_MESSAGE=$(echo $COMMIT_MESSAGE | sed 's/"/\\"/g')
