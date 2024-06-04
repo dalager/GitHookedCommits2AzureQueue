@@ -13,6 +13,11 @@ The credentials are long lived - 5 years as default - and stored in an environme
 
 ![Alt text](images/how_it_works.png)
 
+### The hook
+
+- will ignore commits on `HEAD` branches
+- will ignore rebase commits
+
 ## Storage format
 
 The format of the json is quite simple.
@@ -118,3 +123,7 @@ Will uninstall the global git hook
 
 On windows with `gitui` (https://github.com/extrawurst/gitui) the global hook is not called due to som issue with rust and hook path resolution/environment. I think.
 This means that as of now gitui cannot be used. [Issue #2](https://github.com/dalager/GitHookedCommits2AzureQueue/issues/2)
+
+#### Workaround:
+
+Lazygit works like a charm, though: https://github.com/jesseduffield/lazygit
